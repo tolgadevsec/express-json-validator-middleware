@@ -1,16 +1,14 @@
 # express-json-validator-middleware
 [express.js](https://github.com/visionmedia/express) middleware for validating requests against JSON Schema
 
-[![Build Status](https://travis-ci.org/vacekj/express-json-validator-middleware.svg?branch=master)](https://travis-ci.org/vacekj/express-json-validator-middleware)
-[![codecov](https://codecov.io/gh/vacekj/express-json-validator-middleware/branch/master/graph/badge.svg)](https://codecov.io/gh/vacekj/express-json-validator-middleware)
+
 [![npm](https://img.shields.io/npm/dm/express-json-validator-middleware.svg)](https://www.npmjs.com/package/express-json-validator-middleware)
 [![npm](https://img.shields.io/npm/v/express-json-validator-middleware.svg)](https://www.npmjs.com/package/express-json-validator-middleware)
 [![npm](https://img.shields.io/npm/l/express-json-validator-middleware.svg)](https://www.npmjs.com/package/express-json-validator-middleware)
+[![codecov](https://codecov.io/gh/vacekj/express-json-validator-middleware/branch/master/graph/badge.svg)](https://codecov.io/gh/vacekj/express-json-validator-middleware)
+[![Build Status](https://travis-ci.org/vacekj/express-json-validator-middleware.svg?branch=master)](https://travis-ci.org/vacekj/express-json-validator-middleware)
 
 <hr>
-
-### Looking for contributors!
-I can no longer dedicate as much of my time to maintaining this library, this is an open call for contributors. Please shoot me an email at vacekj at outlook.com if you would like to contribute or take over the project. 
 
 Coming from `express-jsonschema`? Read our [migration notes](#migrating)
 
@@ -36,6 +34,10 @@ Please keep in mind that you have to manually configure ajv to support **draft-0
 
 ## Installation
 
+```sh
+$ yarn add express-json-validator-middleware
+```
+or
 ```sh
 $ npm install express-json-validator-middleware
 ```
@@ -134,7 +136,7 @@ app.use(bodyParser.json());
 // This route validates req.body against the StreetSchema
 app.post('/street/', validate({body: StreetSchema}), function(req, res) {
     // At this point req.body has been validated and you can
-    // begin to execute your application code
+    // execute your route code
     res.send('valid');
 });
 
@@ -144,8 +146,9 @@ app.use(function(err, req, res, next) {
         // At this point you can execute your error handling code
         res.status(400).send('invalid');
         next();
+    } else {
+    	next(err); // pass error on if not a validation error
     }
-    else next(err); // pass error on if not a validation error
 });
 ```
 
@@ -223,7 +226,7 @@ validator.ajv.addKeyword('constant', { validate: function (schema, data) {
 // route handlers with validate()
 ```
 
-More info on custom keywords: [ajv#customs-keywords](https://github.com/epoberezkin/ajv/blob/master/CUSTOM.md#defining-custom-keywords)
+More info on custom keywords: [ajv#customs-keywords](https://github.com/ajv-validator/ajv/blob/master/docs/keywords.md)
 
 ## Ajv instance
 The Ajv instance can be accessed via validator.ajv.
